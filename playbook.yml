@@ -1,0 +1,16 @@
+---
+- name: Déploiement Docker de l’application Spring Boot
+  hosts: docker
+  become: true
+  tasks:
+    - name: Arrêter et supprimer le conteneur existant
+      docker_container:
+        name: myapp
+        state: absent  
+    - name: Lancer le conteneur avec la nouvelle image
+      docker_container:
+        name: myapp
+        image: souhirks/training3:latest
+        ports: 
+            -"8080:8080"
+        state: started 
