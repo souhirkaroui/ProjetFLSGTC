@@ -1,0 +1,61 @@
+pipeline {
+    agent any
+
+    stages {
+        //Continuous Integration
+        stage('Build') {
+            steps {
+                sh 'mvn clean package -DskipTests=true'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        //Continuous Delivery
+        stage('Docker Build & Push') {
+            steps {
+                withDockerRegistry(credentialsId: 'docker', url: "") {
+                    sh 'docker build -t souhirkaroui/training-compareapp-v2 .'
+                    sh 'docker tag souhirkaroui/training-compareapp-v2 souhirks/training3'
+                    sh 'docker push souhirks/training3'
+               }
+            }
+          }
+       // Continuous Deployment
+      //    stage('Deploy with Docker') {
+      //      steps {
+      //         withDockerRegistry(credentialsId: 'docker', url: "") {
+      //              sh 'docker -H ssh://ubuntu@172.31.37.218 rm -f myapp'
+      //              sh 'docker -H ssh://ubuntu@172.31.37.218 run -d --name myapp -p 8080:8080 souhirks/training3'
+       //         }
+      //      }  
+     //   }
+    // Continuous Deployment
+       stage('Deploy to Kubernetes') {
+            steps {
+                withKubeConfig([credentialsId: 'kubeconfig']) { 
+                    script {
+                        //sh 'kubectl apply --dry-run=client -f compare-app.yml'
+
+                        sh 'kubectl apply -f compare-app.yml'
+                       // sh 'kubectl apply -f compare-app-service.yml'
+                      //  sh 'kubectl apply -f compare-app-ingress.yml'
+                    }
+                }
+          }
+      }   
+         
+
+      // stage('Deploy with Ansible') {
+     //     steps {
+       //     ansiblePlaybook(
+        //        inventory: '/etc/ansible/inventory.yml', 
+        //         playbook: '/etc/ansible/playbook.yml',
+        //         credentialsId: 'docker'
+         //           )
+         //       }
+         //  }
+    }
+} 
