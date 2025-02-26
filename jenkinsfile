@@ -17,9 +17,9 @@ pipeline {
         stage('Docker Build & Push') {
             steps {
                 withDockerRegistry(credentialsId: 'docker', url: "") {
-                    sh 'docker build -t souhirkaroui/training-compareapp-v2 .'
-                    sh 'docker tag souhirkaroui/training-compareapp-v2 souhirks/training3'
-                    sh 'docker push souhirks/training3'
+                    sh 'docker build -t souhirkaroui/ProjetFLSGTC .'
+                    sh 'docker tag souhirkaroui/ProjetFLSGTC souhirks/fullstack'
+                    sh 'docker push souhirks/fullstack'
                }
             }
           }
@@ -27,8 +27,8 @@ pipeline {
       //    stage('Deploy with Docker') {
       //      steps {
       //         withDockerRegistry(credentialsId: 'docker', url: "") {
-      //              sh 'docker -H ssh://ubuntu@172.31.37.218 rm -f myapp'
-      //              sh 'docker -H ssh://ubuntu@172.31.37.218 run -d --name myapp -p 8080:8080 souhirks/training3'
+      //              sh 'docker -H ssh://ubuntu@172.31.37.218 rm -f full'
+      //              sh 'docker -H ssh://ubuntu@172.31.37.218 run -d --name full -p 8080:8080 souhirks/fullstack'
        //         }
       //      }  
      //   }
@@ -37,9 +37,11 @@ pipeline {
             steps {
                 withKubeConfig([credentialsId: 'kubeconfig']) { 
                     script {
-                        //sh 'kubectl apply --dry-run=client -f compare-app.yml'
+                       
+                        sh 'kubectl apply -f mysql-deployment.yml'
+                        sh 'kubectl apply -f verifmail-deployment.yml'
+                        sh 'kubectl apply -f frontend-deployment.yml'
 
-                        sh 'kubectl apply -f compare-app.yml'
                        // sh 'kubectl apply -f compare-app-service.yml'
                       //  sh 'kubectl apply -f compare-app-ingress.yml'
                     }
@@ -47,15 +49,5 @@ pipeline {
           }
       }   
          
-
-      // stage('Deploy with Ansible') {
-     //     steps {
-       //     ansiblePlaybook(
-        //        inventory: '/etc/ansible/inventory.yml', 
-        //         playbook: '/etc/ansible/playbook.yml',
-        //         credentialsId: 'docker'
-         //           )
-         //       }
-         //  }
     }
 } 
