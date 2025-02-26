@@ -5,12 +5,12 @@
   tasks:
     - name: Arrêter et supprimer le conteneur existant
       docker_container:
-        name: myapp
+        name: verifmail
         state: absent  
     - name: Lancer le conteneur avec la nouvelle image
       docker_container:
-        name: myapp
-        image: souhirks/training3:latest
+        name: verifmail
+        image: souhirks/verifmail
         ports: 
             -"8080:8080"
         state: started 
