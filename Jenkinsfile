@@ -3,14 +3,14 @@ pipeline {
 
     stages {
         //Continuous Integration
-        stage('Build') {
-            steps {
-                sh 'mvn clean package -DskipTests=true'
-            }
-        }
         stage('Test') {
             steps {
                 sh 'mvn test'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'mvn clean package -DskipTests=true'
             }
         }
         //Continuous Delivery
