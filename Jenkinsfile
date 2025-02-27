@@ -17,9 +17,18 @@ pipeline {
         stage('Docker Build & Push') {
             steps {
                 withDockerRegistry(credentialsId: 'docker', url: "") {
-                    sh 'docker build -t souhirkaroui/ProjetFLSGTC/Authentifcation_Verif_Email .'
-                    sh 'docker tag souhirkaroui/ProjetFLSGTC/Authentifcation_Verif_Email souhirks/verifmail'
-                    sh 'docker push souhirks/verifmail'
+                    script {
+                        def imageName = "souhirkaroui/ProjetFLSGTC/Authentifcation_Verif_Email"
+                        def imageTag = "souhirks/verifmail"
+                        
+                        dir('Authentifcation_Verif_Email') { // Construire l'image à partir du backend uniquement
+                            sh "docker build -t ${imageName}:${imageTag} ."
+                            sh "docker push ${imageName}:${imageTag}"
+                        }
+                    }
+                   // sh 'docker build -t souhirkaroui/ProjetFLSGTC/Authentifcation_Verif_Email .'
+                   // sh 'docker tag souhirkaroui/ProjetFLSGTC/Authentifcation_Verif_Email souhirks/verifmail'
+                   // sh 'docker push souhirks/verifmail'
                }
             }
           }
