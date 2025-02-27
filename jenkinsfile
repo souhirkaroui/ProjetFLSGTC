@@ -23,15 +23,7 @@ pipeline {
                }
             }
           }
-       // Continuous Deployment
-      //    stage('Deploy with Docker') {
-      //      steps {
-      //         withDockerRegistry(credentialsId: 'docker', url: "") {
-      //              sh 'docker -H ssh://ubuntu@172.31.37.218 rm -f full'
-      //              sh 'docker -H ssh://ubuntu@172.31.37.218 run -d --name full -p 8080:8080 souhirks/fullstack'
-       //         }
-      //      }  
-     //   }
+      
     // Continuous Deployment
        stage('Deploy to Kubernetes') {
             steps {
