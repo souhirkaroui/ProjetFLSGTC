@@ -46,12 +46,11 @@ pipeline {
             steps {
                 withKubeConfig([credentialsId: 'kubeconfig']) { 
                 script {
-                    sh """
-                    kubectl apply -f namespace.yml
-                    kubectl apply -f backenddeploy.yml
-                    kubectl apply -f frontdeploy.yml
-                    kubectl apply -f ingress.yaml
-                    """
+                    
+                 sh 'kubectl apply -f namespace.yml'
+                  sh 'kubectl apply -f backenddeploy.yml'
+                 sh 'kubectl apply -f frontdeploy.yml'
+                 sh 'kubectl apply -f ingress.yaml'
                 }
             }
         }
