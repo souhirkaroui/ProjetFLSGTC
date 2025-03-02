@@ -5,6 +5,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                git branch: 'main', credentialsId: 'github', url: 'git@github.com:souhirkaroui/ProjetFLSGTC.git'
+               sh 'ls -lah'  // Vérifier si le code est bien cloné
              }
         }
         // Continuous Integration
