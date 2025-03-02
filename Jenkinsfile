@@ -13,8 +13,7 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/souhirkaroui/ProjetFLSGTC.git'
             }
         }
-    stages {
-        //Continuous Integration
+        
         stage('Build & test') {
             steps {
                 sh 'mvn clean package -DskipTests=true'
@@ -66,13 +65,5 @@ pipeline {
             }
         }
     }
-
-    post {
-        success {
-            echo "Déploiement réussi !"
-        }
-        failure {
-            echo "Le pipeline a échoué"
-        }
-    }
+  }
 }
