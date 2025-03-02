@@ -5,8 +5,12 @@ pipeline {
         //Continuous Integration
         stage('Build') {
             steps {
+               script {
+            dir('Authentifcation-Verif-Email') {
                 sh 'mvn clean package -DskipTests=true'
             }
+           }       
+          }
         }
         stage('Test') {
             steps {
