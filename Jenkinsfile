@@ -1,12 +1,11 @@
 pipeline {
     agent any
-
    stages {
         //Continuous Integration
         stage('Build') {
             steps {
                script {
-                dir('Authentifcation-Verif-Email') {
+                dir('Authentifcation_Verif_Email') {
                 sh 'mvn clean package -DskipTests=true'
             }
            }       
