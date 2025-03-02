@@ -1,12 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_REGISTRY = 'souhirks'  
-        FRONTEND_IMAGE = 'frontend-application'
-        BACKEND_IMAGE = 'Authentifcation-Verif-Email'
-        K8S_NAMESPACE = 'my-app'
-    }
    stages {
         //Continuous Integration
         stage('Build') {
@@ -18,33 +12,27 @@ pipeline {
             steps {
                 sh 'mvn test'
             }
-        }
-        stage('Build Frontend') {
-            steps {
-                script {
-                    dir('frontend-application') {
-                        sh 'docker build -t $DOCKER_REGISTRY/$FRONTEND_IMAGE:latest .'
-                    }
-                }
-            }
-        }
-
-        stage('Build Backend') {
-            steps {
-                script {
-                    dir('Authentifcation-Verif-Email') {
-                        sh 'docker build -t $DOCKER_REGISTRY/$BACKEND_IMAGE:latest .'
-                    }
-                }
-            }
-        }
-
-        stage('Push Docker Images') {
+        }       
+        stage('Docker Build & Push frontend') {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker', url: "")  {
-                        sh 'docker push $DOCKER_REGISTRY/$FRONTEND_IMAGE:latest'
-                        sh 'docker push $DOCKER_REGISTRY/$BACKEND_IMAGE:latest'
+                        sh 'docker build -t souhirkaroui/frontend-application .'
+                        sh 'docker tag souhirkaroui/frontend-application souhirks/frontend'
+                        sh 'docker push souhirks/frontend'                
+                    }
+                }
+            }
+        }
+       stage('Docker Build & Push backend') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'docker', url: "")  {  
+                        sh 'docker build -t souhirkaroui/Authentifcation_Verif_Email .'
+                        sh 'docker tag souhirkaroui/Authentifcation_Verif_Email souhirks/backend'
+                        sh 'docker push souhirks/backend'
+
+                        
                     }
                 }
             }
@@ -57,7 +45,7 @@ pipeline {
                     sh """
                     kubectl apply -f namespace.yml
                     kubectl apply -f backenddeploy.yml
-                    kubectl apply -f verifmaildeploy.yml
+                    kubectl apply -f frontdeploy.yml
                     kubectl apply -f ingress.yaml
                     """
                 }
