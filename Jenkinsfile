@@ -6,7 +6,7 @@ pipeline {
         stage('Build') {
             steps {
                script {
-            dir('Authentifcation-Verif-Email') {
+                dir('Authentifcation-Verif-Email') {
                 sh 'mvn clean package -DskipTests=true'
             }
            }       
