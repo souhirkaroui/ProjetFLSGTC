@@ -7,16 +7,15 @@ pipeline {
         BACKEND_IMAGE = 'Authentifcation-Verif-Email'
         K8S_NAMESPACE = 'my-app'
     }
-    stages {
-        stage('Checkout Code') {
-            steps {
-                git branch: 'main', url: 'https://github.com/souhirkaroui/ProjetFLSGTC.git'
-            }
-        }
-        
-        stage('Build & test') {
+   stages {
+        //Continuous Integration
+        stage('Build') {
             steps {
                 sh 'mvn clean package -DskipTests=true'
+            }
+        }
+        stage('Test') {
+            steps {
                 sh 'mvn test'
             }
         }
