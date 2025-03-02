@@ -2,6 +2,11 @@ pipeline {
     agent any
 
     stages {
+        stage('Checkout Code') {
+            steps {
+               git branch: 'main', credentialsId: 'github', url: 'git@github.com:souhirkaroui/ProjetFLSGTC.git'
+             }
+        }
         // Continuous Integration
         stage('Build Backend') {
             steps {
