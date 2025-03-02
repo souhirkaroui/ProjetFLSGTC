@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_REGISTRY = 'souhirks'  // Ex: Docker Hub, GitHub Container Registry, etc.
+        DOCKER_REGISTRY = 'souhirks'  
         FRONTEND_IMAGE = 'frontend-application'
         BACKEND_IMAGE = 'Authentifcation-Verif-Email'
         K8S_NAMESPACE = 'my-app'
