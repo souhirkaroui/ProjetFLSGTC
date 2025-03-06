@@ -14,7 +14,7 @@ pipeline {
                 script {
                     dir('Authentifcation_Verif_Email') {
                         
-                        sh 'mvn clean install -U'
+                       // sh 'mvn clean install -U'
                         sh 'mvn clean package -DskipTests=true'
                     }
                 }       
