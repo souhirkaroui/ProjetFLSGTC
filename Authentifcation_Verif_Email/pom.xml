@@ -84,6 +84,8 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.30</version>  <!-- Vérifie la dernière version sur Maven Repository -->
+            <scope>provided</scope>     
             <optional>true</optional>
         </dependency>
         <dependency>
