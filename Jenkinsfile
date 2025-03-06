@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     dir('Authentifcation_Verif_Email') {
-                        sh 'ls -lah'  // Vérifie si pom.xml est bien là
+                        
                         sh 'mvn clean install -U'
                         sh 'mvn clean package -DskipTests=true'
                     }
